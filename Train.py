@@ -43,11 +43,12 @@ train_dataset = TGS_Dataset(TRAIN_PATH)
 loaders, ids = train_dataset.yield_dataloader(num_workers=11, batch_size=BATCH_SIZE,
                                               # auxiliary_df=TGS_Dataset.create_dataset_df(AUX_PATH)
                                               )
-
+print("dataset made")
 for i, (train_loader, val_loader) in enumerate(loaders, 1):
     with timer('Fold {}'.format(i)):
         if i < 4:
             continue
+        print(i)
         net = NET(lr=LR, debug=DEBUG, pretrained=PRETRAINED, fold=i, activation=ACTIVATION, comment=COMMENT)
         net.define_criterion(LOSS)
         net.create_optmizer(optimizer=OPTIMIZER, use_scheduler=USE_SCHEDULER, milestones=MILESTONES,
