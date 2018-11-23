@@ -148,6 +148,7 @@ class TGS_Dataset():
 
     @staticmethod
     def load_images(df, data='train'):
+        print("load images")
         df['images'] = [
             normalize(cv2.imread(df.iloc[i]['im_path'],
                        cv2.IMREAD_COLOR).astype(np.float32)) for i in range(len(df))]
