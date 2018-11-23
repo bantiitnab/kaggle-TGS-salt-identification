@@ -132,7 +132,7 @@ class SegmentationNetwork(nn.Module):
             im = im.cuda()
             mask = mask.cuda()
             z = z.cuda()
-            logit = self.forward(im, z)
+            logit = self.forward(im)
             pred = torch.sigmoid(logit)
 
             loss = self.criterion(logit, mask)
