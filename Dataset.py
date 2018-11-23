@@ -164,7 +164,6 @@ class TGS_Dataset():
         walk = os.walk(folder_path)
         main_dir_path, subdirs_path, csv_path = next(walk)
         dir_im_path, _, im_path = next(walk)
-        print(main_dir_path, subdirs_path, csv_path)
         # Create dataframe
         df = pd.DataFrame()
         df['id'] = [im_p.split('.')[0] for im_p in im_path]
@@ -174,8 +173,6 @@ class TGS_Dataset():
             dir_mask_path, _, mask_path = next(walk)
             df['mask_path'] = [os.path.join(dir_mask_path, m_p)
                                for m_p in mask_path]
-            print(csv_path)
-            # , os.path.join(main_dir_path, csv_path[1]))
             rle_df = pd.read_csv(os.path.join(main_dir_path, csv_path[1]))
             df = df.merge(rle_df, on='id', how='left')
         else:
@@ -191,7 +188,7 @@ class TGS_Dataset():
     def yield_dataloader(self, data='train', nfold=5,
                          shuffle=True, seed=143, stratify=True,
                          num_workers=8, batch_size=10, auxiliary_df=None):
-
+        print("yield dataloader")
         if data == 'train':
             if stratify:
                 self.df["coverage"] = self.df.masks.map(np.sum) / pow(IM_SIZE, 2)
@@ -206,6 +203,7 @@ class TGS_Dataset():
                            random_state=seed)
             loaders = []
             idx = []
+            print("1")
             for train_ids, val_ids in kf.split(self.df['id'].values, self.df.coverage_class):
                 if auxiliary_df is not None:
                     train_df = self.df.iloc[train_ids].append(auxiliary_df)
@@ -228,6 +226,7 @@ class TGS_Dataset():
                                         pin_memory=True)
                 idx.append((self.df.id.iloc[train_ids], self.df.id.iloc[val_ids]))
                 loaders.append((train_loader, val_loader))
+            print("2")
             return loaders, idx
 
         elif data == 'test':
@@ -257,13 +256,13 @@ if __name__ == '__main__':
     TEST_PATH = './data/test'
 
     dataset = TGS_Dataset(TRAIN_PATH)
-    dataset.visualize_sample(3)
-    # loaders, idx = dataset.yield_dataloader(data='train', nfold=5,
-    #                                         shuffle=True, seed=143,
-    #                                         num_workers=8, batch_size=10)
-    # ids = []
-    # for i in loaders[0][0]:
-    #     ids.append(i)
+    # dataset.visualize_sample(3)
+    loaders, idx = dataset.yield_dataloader(data='train', nfold=5,
+                                            shuffle=True, seed=143,
+                                            num_workers=8, batch_size=10)
+    ids = []
+    for i in loaders[0][0]:
+        ids.append(i)
 
-    # print(len(ids))
-    plt.show()
+    print(len(ids))
+    # plt.show()
