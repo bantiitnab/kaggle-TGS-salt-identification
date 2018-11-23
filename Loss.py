@@ -1,7 +1,7 @@
 import torch.nn as nn
 import torch.nn.functional as F
 import torch
-from .lovász_loss import lovasz_hinge, binary_xloss
+from lovász_loss import lovasz_hinge, binary_xloss
 ################### DICE ########################
 def IoU(logit, truth, smooth=1):
     prob = torch.sigmoid(logit)
