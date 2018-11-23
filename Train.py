@@ -11,7 +11,7 @@ def timer(title):
     print("{} - done in {:.0f}s".format(title, time.time() - t0))
 
 ##############################
-TRAIN_PATH = './Data/Train'
+TRAIN_PATH = '../data/train'
 AUX_PATH = './Data/auxiliary_data'
 LOAD_PATHS = None
 
@@ -21,7 +21,8 @@ DEBUG = False
 LOSS = 'lovasz'
 OPTIMIZER = 'SGD'
 PRETRAINED = True
-N_EPOCH = 150
+# N_EPOCH = 150
+N_EPOCH = 2
 BATCH_SIZE = 32
 NET = UNetResNet34_SE_Hyper_SPP
 ACTIVATION = 'relu'

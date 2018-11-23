@@ -164,6 +164,7 @@ class TGS_Dataset():
         walk = os.walk(folder_path)
         main_dir_path, subdirs_path, csv_path = next(walk)
         dir_im_path, _, im_path = next(walk)
+        print(main_dir_path, subdirs_path, csv_path)
         # Create dataframe
         df = pd.DataFrame()
         df['id'] = [im_p.split('.')[0] for im_p in im_path]
@@ -173,6 +174,8 @@ class TGS_Dataset():
             dir_mask_path, _, mask_path = next(walk)
             df['mask_path'] = [os.path.join(dir_mask_path, m_p)
                                for m_p in mask_path]
+            print(csv_path)
+            # , os.path.join(main_dir_path, csv_path[1]))
             rle_df = pd.read_csv(os.path.join(main_dir_path, csv_path[1]))
             df = df.merge(rle_df, on='id', how='left')
         else:
@@ -250,17 +253,17 @@ class TGS_Dataset():
 
 
 if __name__ == '__main__':
-    TRAIN_PATH = './Data/Train'
-    TEST_PATH = './Data/Test'
+    TRAIN_PATH = '../data/train'
+    TEST_PATH = './data/test'
 
     dataset = TGS_Dataset(TRAIN_PATH)
-    # dataset.visualize_sample(3)
-    loaders, idx = dataset.yield_dataloader(data='train', nfold=5,
-                                            shuffle=True, seed=143,
-                                            num_workers=8, batch_size=10)
-    ids = []
-    for i in loaders[0][0]:
-        ids.append(i)
+    dataset.visualize_sample(3)
+    # loaders, idx = dataset.yield_dataloader(data='train', nfold=5,
+    #                                         shuffle=True, seed=143,
+    #                                         num_workers=8, batch_size=10)
+    # ids = []
+    # for i in loaders[0][0]:
+    #     ids.append(i)
 
-    print(len(ids))
-    # plt.show()
+    # print(len(ids))
+    plt.show()
