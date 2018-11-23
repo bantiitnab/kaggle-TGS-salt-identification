@@ -38,6 +38,8 @@ LR_MIN = 0
 ##############################
 COMMENT = 'SGDR (Tmax40, Tmul1), Lovasz, relu, pretrained'
 
+print("dataset making")
+
 train_dataset = TGS_Dataset(TRAIN_PATH)
 # train_dataset.load_images()
 loaders, ids = train_dataset.yield_dataloader(num_workers=11, batch_size=BATCH_SIZE,
