@@ -181,7 +181,7 @@ class TGS_Dataset():
 
         depth_df = pd.read_csv(os.path.join(main_dir_path, csv_path[0]))
         df = df.merge(depth_df, on='id', how='left')
-
+        df = df[:100]
         if load:
             df = TGS_Dataset.load_images(df, data=data)
         return df
