@@ -22,13 +22,14 @@ LOSS = 'lovasz'
 OPTIMIZER = 'SGD'
 PRETRAINED = True
 # N_EPOCH = 150
-N_EPOCH = 2
+N_EPOCH = 30
 BATCH_SIZE = 32
 NET = UNetResNet34_SE_Hyper_SPP
 ACTIVATION = 'relu'
 ###########OPTIMIZER###########
 LR = 1e-2
-USE_SCHEDULER = 'CosineAnneling'
+# USE_SCHEDULER = 'CosineAnneling'
+USE_SCHEDULER = 'ReduceLROnPlateau'
 MILESTONES = [20, 40, 75]
 GAMMA = 0.5
 PATIENCE = 10
